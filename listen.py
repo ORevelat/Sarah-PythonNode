@@ -44,6 +44,7 @@ def audioRecorderCallback(data):
 
 def detectedCallback():
     my_logger.info('Hotword detected ...')
+    snowboydecoder.play_audio_file()
     sys.stdout.flush()
 
 def signal_handler(signal, frame):
