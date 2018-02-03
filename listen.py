@@ -43,8 +43,8 @@ def audioRecorderCallback(data):
         print("unable to contact remote host %s : %s" % (remote, e))
 
 def detectedCallback():
-    my_logger.info('Hotword detected ...')
     snowboydecoder.play_audio_file()
+    my_logger.info('Hotword detected ...')
     sys.stdout.flush()
 
 def signal_handler(signal, frame):
@@ -66,7 +66,7 @@ remote = sys.argv[2]
 # capture SIGINT signal, e.g., Ctrl+C
 signal.signal(signal.SIGINT, signal_handler)
 
-detector = snowboydecoder.HotwordDetector(model, sensitivity=0.4, audio_gain=1.3)
+detector = snowboydecoder.HotwordDetector(model, sensitivity=0.4, audio_gain=2)
 print("Listening... Press Ctrl+C to exit")
 
 # main loop

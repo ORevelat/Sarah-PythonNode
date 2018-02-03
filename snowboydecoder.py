@@ -211,6 +211,7 @@ class HotwordDetector(object):
                     silentCount = 0
 
                 if stopRecording == True:
+                    #self.saveMessage()
                     encoded = base64.b64encode(b''.join(self.recordedData))
                     audio_recorder_callback(encoded)
 
@@ -222,6 +223,23 @@ class HotwordDetector(object):
 
         logger.debug("finished.")
 
+    def saveMessage(self):
+        """
+        Save the message stored in self.recordedData to a timestamped file.
+        """
+        filename = 'output' + str(int(time.time())) + '.wav'
+        data = b''.join(self.recordedData)
+
+        #use wave to save data
+        wf = wave.open(filename, 'wb')
+        wf.setnchannels(1)
+        wf.setsampwidth(self.audio.get_sample_size(
+            self.audio.get_format_from_width(
+                self.detector.BitsPerSample() / 8)))
+        wf.setframerate(self.detector.SampleRate())
+        wf.writeframes(data)
+        wf.close()
+
     def terminate(self):
         """
         Terminate audio stream. Users cannot call start() again to detect.
@@ -230,3 +248,4 @@ class HotwordDetector(object):
         self.stream_in.stop_stream()
         self.stream_in.close()
         self.audio.terminate()
+
